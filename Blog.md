@@ -1,4 +1,4 @@
-# Blog 1: Roll-A-Ball
+# Blog 1: Roll-A-Ball. GitHub Link: https://github.com/MathiasMillingHansen/Roll-A-Ball-Remake.git
 
 I started by creating a plan which could be used to roll the ball on. Then i had to create the wall to make sure the player couldnt roll of the plane, so i made sure to add collision as well. The next step was then to create the ball. In this case the sphere made most sense. The next step was creating a material which could be used on the "ball". Here i chose a simple grey color.
 The next step was then to make the ball able to roll. To do that i needed to add a rigidbody which contains the physics. This made the ball feel like an actual object with gravity and weight / mass. 
