@@ -1,60 +1,139 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 10f; // Speed at which the player moves
-    public float accelerationTime = 0.01f; // Time to reach max speed
-    public float decelerationTime = 0.01f; // Time to stop completely
-    private Rigidbody2D rb; // Reference to Rigidbody2D
-    public GameObject bulletPrefab; // Bullet prefab to instantiate
-    public Transform shootPoint; // The point from which the bullet is shot (e.g., in front of the player)
-    private Vector2 targetVelocity; // The target velocity the player is moving towards
+    private PlayerControls controls; // Input System
+    private Rigidbody2D rb;
+    private Animator animator;
 
-    void Start()
+    [Header("Movement Settings")]
+    public float speed = 5f;
+    public float jumpForce = 5f;
+    private Vector2 moveInput;
+    private bool isGrounded;
+
+    [Header("Crouch Settings")]
+    public Transform standingCollider;
+    public Transform crouchingCollider;
+
+    [Header("Events")]
+    [Space]
+    public UnityEvent OnLandEvent;
+
+    [System.Serializable]
+    public class BoolEvent : UnityEvent<bool> { }
+
+    private bool hasFallen; // Track if the falling animation has already been triggered
+
+    private void Awake()
     {
-        // Get the Rigidbody2D component attached to the player
+        controls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        animator = GetComponent<Animator>();
+
+        // Check if the OnLandEvent is null
+        if (OnLandEvent == null)
+        {
+            OnLandEvent = new UnityEvent();
+        }
+
+        // Input Actions
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Jump.performed += ctx => { Jump(); };
+        controls.Player.Crouch.performed += ctx => Crouch(true);
+        controls.Player.Crouch.canceled += ctx => Crouch(false);
     }
 
-    void Update()
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
+
+    private void Update()
     {
-        // Get raw input (instant input without smoothing)
-        float horizontal = Input.GetAxisRaw("Horizontal"); // A/D or Left/Right Arrow keys
-        float vertical = Input.GetAxisRaw("Vertical"); // W/S or Up/Down Arrow keys
+        Move();
+        HandleFalling();
+    }
 
-        // Create a target velocity based on input (normalized to avoid faster diagonal movement)
-        targetVelocity = new Vector2(horizontal, vertical).normalized * moveSpeed;
+    private void Move()
+    {
+        float moveDirection = moveInput.x;
 
-        // Handle acceleration and deceleration with lerp for instant but smooth changes
-        if (horizontal != 0 || vertical != 0)
+        if (moveDirection != 0)
         {
-            // Accelerate quickly (instant reaction)
-            rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, targetVelocity, Time.deltaTime / accelerationTime);
+            rb.linearVelocity = new Vector2(speed * moveDirection, rb.linearVelocity.y); // Use velocity instead of linearVelocity
+            transform.localScale = new Vector3(Mathf.Sign(moveDirection) * Mathf.Abs(transform.localScale.x), transform.localScale.y, 1);
         }
         else
         {
-            // Decelerate quickly to stop
-            rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, Time.deltaTime / decelerationTime);
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // Keep the vertical velocity
         }
-        
-        if (Input.GetButtonDown("Fire1")) 
-            Shoot();
+
+        animator.SetFloat("Speed", Mathf.Abs(moveDirection));
     }
-    void Shoot()
+
+    private void Jump()
     {
-        // Instantiate the bullet at the shoot point
-        GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
-            
-        // Determine direction: shoot based on player's movement direction
-        Vector2 shootDirection = targetVelocity.normalized;
-
-        // If no movement input, shoot straight (to avoid zero velocity errors)
-        if (shootDirection == Vector2.zero)
+        if (isGrounded)
         {
-            shootDirection = Vector2.up; // Default to upwards if the player isn't moving
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            isGrounded = false;
+            animator.SetBool("isJumping", true);
+            hasFallen = false; // Reset falling state when jumping
         }
+    }
 
-        // Call the Fire method on the bullet to move it in the correct direction
-        bullet.GetComponent<Bullet>().Fire(shootDirection);
+    public void OnLanding()
+    {
+        animator.SetBool("isJumping", false);
+        animator.SetBool("isFalling", false);  // Stop the falling animation when landed
+        hasFallen = false; // Reset falling state on landing
+    }
+
+    private void Crouch(bool isCrouching)
+    {
+        standingCollider.gameObject.SetActive(!isCrouching);
+        crouchingCollider.gameObject.SetActive(isCrouching);
+        animator.SetBool("Crouch", isCrouching);
+    }
+
+    private void HandleFalling()
+    {
+        // Check if the player is not grounded and falling
+        if (!isGrounded && rb.linearVelocity.y < 0 && !hasFallen)
+        {
+            animator.SetBool("isJumping", false); // Stop the jumping animation when falling
+            animator.SetBool("isFalling", true);  // Start the falling animation
+            hasFallen = true;  // Mark that falling animation is triggered
+        }
+        else if (isGrounded && hasFallen)
+        {
+            animator.SetBool("isFalling", false); // Stop the falling animation when grounded
+            hasFallen = false;  // Reset falling state
+        }
+    }
+
+    // Immediately trigger OnLandEvent when the player hits the ground
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true; // Set the grounded state when colliding with ground
+
+            // Immediately invoke OnLandEvent
+            OnLandEvent.Invoke();
+        }
+    }
+
+    // Reset isGrounded when leaving the ground
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false; // Set the grounded state to false when leaving the ground
+        }
     }
 }
