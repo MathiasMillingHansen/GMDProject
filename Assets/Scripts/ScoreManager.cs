@@ -1,5 +1,6 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Required to access scene information
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -20,23 +21,56 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void OnEnable()
     {
-        // Check if the active scene is "GameScene"
-        if (SceneManager.GetActiveScene().name == "GameScene")
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameScene")
         {
-            // Ensure the score doesn't go below 0
-            if (score > 0)
-            {
-                score -= 10;
-            }
+            ResetScore();
+            StartCoroutine(DecreaseScoreOverTime());
+        }
+        else
+        {
+            StopAllCoroutines(); // Stop the coroutine if leaving the GameScene
         }
     }
 
-    // Method to add points to the score
+    private void ResetScore()
+    {
+        score = 20000;
+        Debug.Log("Score reset to: " + score);
+    }
+
+    private IEnumerator DecreaseScoreOverTime()
+    {
+        while (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            if (score > 0)
+            {
+                score -= 10;
+                Debug.Log("Score: " + score);
+            }
+            yield return new WaitForSeconds(0.5f); // Wait for 200 milliseconds
+        }
+    }
+
     public void AddScore(int points)
     {
         score += points;
-        Debug.Log("Current score: " + score); // Log the current score
+        Debug.Log("Current score: " + score);
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 }

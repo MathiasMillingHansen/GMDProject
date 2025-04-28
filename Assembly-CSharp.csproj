@@ -71,8 +71,10 @@
     <Compile Include="Assets\Scripts\GameSceneController.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\DiedScreenController.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\InputSystem_Actions.cs" />
+    <Compile Include="Assets\Scripts\WinScreenController.cs" />
     <Compile Include="Assets\Scripts\CameraRunner.cs" />
     <Compile Include="Assets\Scripts\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />

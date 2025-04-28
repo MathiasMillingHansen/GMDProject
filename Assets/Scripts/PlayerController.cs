@@ -1,6 +1,8 @@
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +20,10 @@ public class PlayerController : MonoBehaviour
     public Transform standingCollider;
     public Transform crouchingCollider;
 
+    [Header("Health Settings")]
+    public int maxHealth = 3; // Maximum health
+    private int currentHealth; // Current health
+
     [Header("Events")]
     [Space]
     public UnityEvent OnLandEvent;
@@ -33,6 +39,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         animator = GetComponent<Animator>();
+
+        // Initialize health
+        currentHealth = maxHealth;
 
         // Check if the OnLandEvent is null
         if (OnLandEvent == null)
@@ -116,7 +125,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Immediately trigger OnLandEvent when the player hits the ground
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -128,6 +137,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.CompareTag("Killbox"))
+    {
+        Debug.Log("Player fell off the map!");
+        Die();
+    }
+
+    if (collision.CompareTag("Winbox"))
+    {
+        Debug.Log("Player reached the win box!");
+        SceneManager.LoadScene("WinScreen"); // Load the WinScreen scene
+    }
+}
+
     // Reset isGrounded when leaving the ground
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -135,5 +159,24 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false; // Set the grounded state to false when leaving the ground
         }
+    }
+
+    // Function to take damage
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        Debug.Log("Player took damage! Current health: " + currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    // Function to handle player death
+    private void Die()
+    {
+        Debug.Log("Player has died!");
+        SceneManager.LoadScene("DiedScreen"); // Load the DiedScreen scene
     }
 }
