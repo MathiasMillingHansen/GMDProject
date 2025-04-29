@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,6 +24,10 @@ public class PlayerController : MonoBehaviour
     [Header("Health Settings")]
     public int maxHealth = 3; // Maximum health
     private int currentHealth; // Current health
+
+    [Header("Damage Settings")]
+    public float iframeDuration = 0.5f; // Duration of invincibility frames
+    private bool isInvincible = false; // Tracks if the player is currently invincible
 
     [Header("Events")]
     [Space]
@@ -161,16 +166,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Function to take damage
     public void TakeDamage(int damage)
     {
+        if (isInvincible) return; // Ignore damage if invincible
+
         currentHealth -= damage;
         Debug.Log("Player took damage! Current health: " + currentHealth);
+
+        // Trigger the hurt animation
+        animator.SetBool("BeenHurt", true);
 
         if (currentHealth <= 0)
         {
             Die();
         }
+        else
+        {
+            StartCoroutine(ResetHurtAnimation());
+            StartCoroutine(ActivateIframes());
+        }
+    }
+
+    private IEnumerator ResetHurtAnimation()
+    {
+        yield return new WaitForSeconds(0.1f); // Short delay to show the hurt animation
+        animator.SetBool("BeenHurt", false);
+    }
+
+    private IEnumerator ActivateIframes()
+    {
+        isInvincible = true; // Enable invincibility
+        yield return new WaitForSeconds(iframeDuration); // Wait for iframe duration
+        isInvincible = false; // Disable invincibility
     }
 
     // Function to handle player death
