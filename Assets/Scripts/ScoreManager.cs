@@ -59,7 +59,7 @@ public class ScoreManager : MonoBehaviour
                 score -= 10;
                 Debug.Log("Score: " + score);
             }
-            yield return new WaitForSeconds(0.5f); // Wait for 200 milliseconds
+            yield return new WaitForSeconds(0.5f); // Wait for 500 milliseconds
         }
     }
 
