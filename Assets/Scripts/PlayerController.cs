@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEditor.SearchService;
 using UnityEngine;
@@ -40,7 +41,11 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        controls = new PlayerControls();
+        if (controls == null)
+        {
+            controls = new PlayerControls(); // Ensure controls are initialized
+        }
+
         rb = GetComponent<Rigidbody2D>();
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         animator = GetComponent<Animator>();
@@ -63,17 +68,33 @@ public class PlayerController : MonoBehaviour
         controls.Player.Crouch.canceled += ctx => Crouch(false);
     }
 
-    private void OnEnable() => controls.Enable();
-    private void OnDisable() => controls.Disable();
+    private void OnEnable()
+    {
+        if (controls == null)
+        {
+            controls = new PlayerControls(); // Reinitialize controls if null
+        }
+        controls.Enable(); // Enable the input system
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable(); // Disable the input system
+    }
 
     private void Update()
     {
+        if (GameController.isPaused) return;
         Move();
         HandleFalling();
     }
 
     private void Move()
     {
+
+        if (GameController.isPaused) return;
+
+
         float moveDirection = moveInput.x;
 
         if (moveDirection != 0)
@@ -91,6 +112,9 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+
+        if (GameController.isPaused) return;
+
         if (isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
@@ -146,13 +170,11 @@ public class PlayerController : MonoBehaviour
 {
     if (collision.CompareTag("Killbox"))
     {
-        Debug.Log("Player fell off the map!");
         Die();
     }
 
     if (collision.CompareTag("Winbox"))
     {
-        Debug.Log("Player reached the win box!");
         SceneManager.LoadScene("WinScreen"); // Load the WinScreen scene
     }
 }
@@ -171,7 +193,6 @@ public class PlayerController : MonoBehaviour
         if (isInvincible) return; // Ignore damage if invincible
 
         currentHealth -= damage;
-        Debug.Log("Player took damage! Current health: " + currentHealth);
 
         // Trigger the hurt animation
         animator.SetBool("BeenHurt", true);
@@ -203,7 +224,6 @@ public class PlayerController : MonoBehaviour
     // Function to handle player death
     private void Die()
     {
-        Debug.Log("Player has died!");
         SceneManager.LoadScene("DiedScreen"); // Load the DiedScreen scene
     }
 }
