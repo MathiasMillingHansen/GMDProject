@@ -1,75 +1,69 @@
-# Game Design Document
-## Title: Forest Hop
-**Genre**: 2D Platformer
+# Game Design Document  
+## Title: Forest Hop  
+**Genre**: 2D Platformer  
 
 ---
 
-## Game Overview
-*Forest Hop* is a charming and simple 2D platformer where players control a small adventurer exploring a colorful forest. The main gameplay mechanic revolves around jumping on enemies—various animals—to defeat them and progress through levels. With straightforward controls and engaging platforming challenges, *Forest Hop* aims to deliver a fun and accessible experience for players of all ages.
+## Game Overview  
+*Forest Hop* is a charming and simple 2D platformer where players control a brave little fox trying to make his way back home to his family. Along the journey, the fox must navigate a mysterious forest that has become overrun with dinosaurs. The main gameplay mechanic revolves around jumping on dinos to defeat them and progressing through each zone. With straightforward controls and engaging platforming challenges, *Forest Hop* delivers a fun and accessible experience for players of all ages.
 
 ---
 
-## Story and Setting
-### Backstory:
-In *Forest Hop*, players take on the role of a young explorer who stumbles upon a mystical forest filled with mischievous creatures. The animals, enchanted by an ancient spell, have become aggressive and block the path forward. To escape the forest, the explorer must navigate through dangerous terrain, jump on hostile creatures, and uncover the secrets hidden within the woods.
+## Story and Setting  
 
-### Key Characters:
-- **The Explorer (Protagonist)**: An adventerous fox.
-- **Forest Animals (Enemies)**: Various enchanted creatures that serve as obstacles. Each has unique movement patterns and behaviors.
+### Backstory  
+In *Forest Hop*, players take on the role of a courageous fox who was separated from his family while out exploring. When he returns, he finds the forest has changed—strange prehistoric creatures now roam the woods, displaced in time by a magical rift. To reunite with his family, the fox must journey through dangerous terrain, face off against dinosaurs, and overcome enchanted obstacles that stand in his way.
 
-### Themes:
-- **Adventure and Exploration**: The game encourages curiosity and discovery as players traverse the forest.
-- **Nature and Magic**: The setting is deeply connected to nature, with a touch of enchantment influencing the environment and creatures.
-- **Overcoming Challenges**: Players learn to navigate obstacles and defeat enemies using skillful platforming.
+### Key Characters  
+- **The Fox (Protagonist)**: A determined and agile young fox who must get back home to his family.  
+- **Dinosaurs (Enemies)**: Time-displaced prehistoric creatures. Each type of dinosaur poses different challenges with unique movement patterns and abilities.
 
----
-
-## Gameplay Mechanics
-### Core Gameplay:
-- **2D Side-Scrolling Platformer**: Players move left and right, jump, and interact with objects to progress through levels.
-- **Jump to Defeat Enemies**: The primary combat mechanic involves jumping on enemies to eliminate them.
-- **Collectibles**: Coins, fruit, or magical artifacts can be collected for points or power-ups.
-- **Checkpoints**: Progress-saving points placed throughout the level to reduce frustration from dying.
-
-### Enemy Types:
-- **Squirrels**: Basic enemies that move back and forth.
-- **Rabbits**: Jump occasionally, requiring careful timing to defeat.
-- **Porcupines**: Cannot be jumped on directly; players must find an alternate way to bypass them.
-- **Birds**: Fly in patterns, making them tricky to land on.
-
-### Progression & Replayability:
-- **Multiple Levels**: The game consists of different zones, each with unique themes and enemy types.
-- **Time Challenges**: Players can complete levels under a time limit for additional rewards.
-- **Achievement System**: Unlock special achievements for completing levels without taking damage, collecting all items, etc.
+### Themes  
+- **Family and Perseverance**: The driving force behind the fox's journey is the desire to return to loved ones.  
+- **Adventure and Survival**: The game encourages players to explore, adapt, and overcome obstacles.  
+- **Nature Meets Time**: A blend of serene natural landscapes with an unexpected twist—dinosaurs in the modern forest.
 
 ---
 
-## Art and Visuals
-### Visual Style:
-- **Pixel**
+## Gameplay Mechanics  
 
+### Core Gameplay  
+- **2D Side-Scrolling Platformer**: Players move, jump, and interact with the environment to move forward.  
+- **Jump to Defeat Enemies**: The fox can defeat most dinosaurs by jumping on their heads.  
+- **Collectibles**: Gem crystals can be collected to give the player more score.  
 
-### Environment Design:
-- **Forest Glade**: A lush starting area with soft green platforms and enemies.
+### Enemy Types (Dinosaurs)  
+- **Compsognathus (Compy)**: Small, fast dinos that run back and forth.
 
-### Animation Style:
-- **Smooth Sprite Platforming Animations**: Character movement feels fluid and natural.
-
-
----
-
-## Sound and Music
-### Sound Design:
-- **Jump Sounds**: A light ‘boing’ effect to emphasize the platforming feel.
-- **Enemy Defeat Sounds**: A comical ‘pop’ when an enemy is defeated.
-- **Background Ambience**: Birds chirping, wind rustling, and distant waterfalls.
-
-### Music:
-- **Upbeat and Whimsical**: Lighthearted tunes to match the adventurous theme.
-- **Dynamic Changes**: Music shifts subtly when entering different zones or encountering hidden areas.
-- **Victory Fanfare**: A cheerful melody plays upon level completion.
+### Progression & Replayability  
+- **Secrets**: There are multiple secrets encouring the player to think outside the box
+- **Time Challenges**: The score decreases over time encouraging a fast playtime.  
 
 ---
 
-## Conclusion
-*Forest Hop* delivers a fun and engaging platforming experience with simple yet rewarding mechanics. By combining charming visuals, smooth gameplay, and creative level design, the game offers an enjoyable adventure that encourages exploration and skillful jumping. Whether casually hopping through levels or mastering time challenges, players will find plenty of excitement in this whimsical forest world.
+## Art and Visuals  
+
+### Visual Style  
+- **Pixel Art with a Modern Touch**: Bright, colorful, and expressive sprites that bring the forest and dinos to life.
+
+### Environment Design  
+- **Forest Edge**: Calm and green, slowly hinting at the strange shift in time.  
+- **Home Hills**: Peaceful and golden—a warm place the fox hopes to return to.
+
+### Animation Style  
+- **Smooth Sprite-Based Animation**: Lively fox movements and expressive dino behaviors.
+
+---
+
+## Sound and Music  
+
+### Sound Design  
+- **Dino Defeat Sound**: A crunchy or thumpy effect.  
+
+### Music  
+- **Whimsical and Mysterious**: Tracks that blend cheerful melodies with a sense of wonder.  
+
+---
+
+## Conclusion  
+*Forest Hop* is a heartfelt and fun 2D platformer that mixes classic gameplay with a unique twist—prehistoric enemies in a magical forest. Through colorful visuals, fluid controls, and a sweet narrative, players will enjoy guiding the fox on his brave journey home. Whether overcoming challenging dinos or simply enjoying the scenery, *Forest Hop* offers a memorable experience for all.
