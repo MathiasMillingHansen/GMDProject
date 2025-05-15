@@ -149,10 +149,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3911244440361893630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0574b7ca5908b7d4788eaead284badb9, type: 3}
+  m_Script: {fileID: 11500000, guid: edb0b15f892b0a349957aef7e115dad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreManager: {fileID: 0}
 --- !u!68 &5942949241793414721
 EdgeCollider2D:
   m_ObjectHideFlags: 0
