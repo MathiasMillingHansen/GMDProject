@@ -18,7 +18,6 @@ public class EnemyHealthController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log(gameObject.name + " took damage! Current health: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -28,11 +27,9 @@ public class EnemyHealthController : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log(gameObject.name + " has been defeated!");
         Destroy(gameObject); // Destroy the enemy GameObject
 
         ScoreManager.Instance.AddScore(250); // Add score to the ScoreManager
-        Debug.Log("Score added! Current score: " + ScoreManager.Instance.GetScore());
 
     }
 

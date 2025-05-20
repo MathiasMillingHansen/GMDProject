@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
-using UnityEditor.SearchService;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
     [Header("Health Settings")]
     public int maxHealth = 3; // Maximum health
     private int currentHealth; // Current health
+
+    public Text healthText;
 
     [Header("Damage Settings")]
     public float iframeDuration = 0.5f; // Duration of invincibility frames
@@ -50,10 +53,10 @@ public class PlayerController : MonoBehaviour
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         animator = GetComponent<Animator>();
 
-        // Initialize health
         currentHealth = maxHealth;
 
-        // Check if the OnLandEvent is null
+        UpdateHealthUI();
+
         if (OnLandEvent == null)
         {
             OnLandEvent = new UnityEvent();
@@ -72,7 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         if (controls == null)
         {
-            controls = new PlayerControls(); // Reinitialize controls if null
+            controls = new PlayerControls(); 
         }
         controls.Enable(); // Enable the input system
     }
@@ -99,12 +102,12 @@ public class PlayerController : MonoBehaviour
 
         if (moveDirection != 0)
         {
-            rb.linearVelocity = new Vector2(speed * moveDirection, rb.linearVelocity.y); // Use velocity instead of linearVelocity
+            rb.linearVelocity = new Vector2(speed * moveDirection, rb.linearVelocity.y); 
             transform.localScale = new Vector3(Mathf.Sign(moveDirection) * Mathf.Abs(transform.localScale.x), transform.localScale.y, 1);
         }
         else
         {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // Keep the vertical velocity
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); 
         }
 
         animator.SetFloat("Speed", Mathf.Abs(moveDirection));
@@ -143,14 +146,14 @@ public class PlayerController : MonoBehaviour
         // Check if the player is not grounded and falling
         if (!isGrounded && rb.linearVelocity.y < 0 && !hasFallen)
         {
-            animator.SetBool("isJumping", false); // Stop the jumping animation when falling
-            animator.SetBool("isFalling", true);  // Start the falling animation
-            hasFallen = true;  // Mark that falling animation is triggered
+            animator.SetBool("isJumping", false); 
+            animator.SetBool("isFalling", true);  
+            hasFallen = true;  
         }
         else if (isGrounded && hasFallen)
         {
             animator.SetBool("isFalling", false); // Stop the falling animation when grounded
-            hasFallen = false;  // Reset falling state
+            hasFallen = false;  
         }
     }
 
@@ -159,9 +162,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true; // Set the grounded state when colliding with ground
+            isGrounded = true; 
 
-            // Immediately invoke OnLandEvent
+            
             OnLandEvent.Invoke();
         }
     }
@@ -175,24 +178,26 @@ public class PlayerController : MonoBehaviour
 
     if (collision.CompareTag("Winbox"))
     {
-        SceneManager.LoadScene("WinScreen"); // Load the WinScreen scene
+        SceneManager.LoadScene("WinScreen"); 
     }
 }
 
-    // Reset isGrounded when leaving the ground
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = false; // Set the grounded state to false when leaving the ground
+            isGrounded = false; 
         }
     }
 
     public void TakeDamage(int damage)
     {
-        if (isInvincible) return; // Ignore damage if invincible
+        if (isInvincible) return;
 
         currentHealth -= damage;
+
+        UpdateHealthUI(); 
 
         // Trigger the hurt animation
         animator.SetBool("BeenHurt", true);
@@ -216,14 +221,22 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ActivateIframes()
     {
-        isInvincible = true; // Enable invincibility
-        yield return new WaitForSeconds(iframeDuration); // Wait for iframe duration
-        isInvincible = false; // Disable invincibility
+        isInvincible = true; 
+        yield return new WaitForSeconds(iframeDuration); 
+        isInvincible = false; 
     }
 
-    // Function to handle player death
+    private void UpdateHealthUI()
+{
+    if (healthText != null)
+    {
+        healthText.text = "HP: " + currentHealth;
+    }
+}
+
+    
     private void Die()
     {
-        SceneManager.LoadScene("DiedScreen"); // Load the DiedScreen scene
+        SceneManager.LoadScene("DiedScreen");
     }
 }
