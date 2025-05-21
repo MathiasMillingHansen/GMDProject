@@ -15,11 +15,9 @@ public class SettingsController : MonoBehaviour
     void Start()
     {
         musicSlider.value = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1f);
-        sfxSlider.value = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1f); 
         fullscreenToggle.isOn = PlayerPrefs.GetInt(FULLSCREEN_KEY, 1) == 1; 
 
         musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
-        sfxSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
         fullscreenToggle.onValueChanged.AddListener(OnFullscreenToggled);
 
         AudioManager.Instance.PlayMusic(1);

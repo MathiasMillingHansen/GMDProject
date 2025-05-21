@@ -102,8 +102,8 @@ public class PlayerController : MonoBehaviour
 
         if (moveDirection != 0)
         {
-            rb.linearVelocity = new Vector2(speed * moveDirection, rb.linearVelocity.y); 
-            transform.localScale = new Vector3(Mathf.Sign(moveDirection) * Mathf.Abs(transform.localScale.x), transform.localScale.y, 1);
+            rb.linearVelocity = new Vector2(speed * moveDirection, rb.linearVelocity.y); // Move the player while maintaining vertical velocity
+            transform.localScale = new Vector3(Mathf.Sign(moveDirection) * Mathf.Abs(transform.localScale.x), transform.localScale.y, 1); // Flip the player based on movement direction
         }
         else
         {
