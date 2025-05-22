@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI; // Required for working with UI elements
+using UnityEngine.UI; 
 
 public class WinScreenControlller : MonoBehaviour
 {

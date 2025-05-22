@@ -47,7 +47,6 @@ public class ScoreManager : MonoBehaviour
     private void ResetScore()
     {
         score = 20000;
-        Debug.Log("Score reset to: " + score);
     }
 
     private IEnumerator DecreaseScoreOverTime()
@@ -57,7 +56,6 @@ public class ScoreManager : MonoBehaviour
             if (score > 0)
             {
                 score -= 10;
-                Debug.Log("Score: " + score);
             }
             yield return new WaitForSeconds(0.5f); // Wait for 500 milliseconds
         }
@@ -66,7 +64,6 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int points)
     {
         score += points;
-        Debug.Log("Current score: " + score);
     }
 
     public int GetScore()

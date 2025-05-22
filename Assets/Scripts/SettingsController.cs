@@ -9,7 +9,6 @@ public class SettingsController : MonoBehaviour
     public Toggle fullscreenToggle;
 
     private const string MUSIC_VOLUME_KEY = "MusicVolume";
-    private const string SFX_VOLUME_KEY = "SFXVolume";
     private const string FULLSCREEN_KEY = "Fullscreen";
 
     void Start()
@@ -29,12 +28,6 @@ public class SettingsController : MonoBehaviour
         PlayerPrefs.Save();
 
         AudioListener.volume = volume; 
-    }
-
-    void OnSFXVolumeChanged(float volume)
-    {
-        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
-        PlayerPrefs.Save();
     }
 
     void OnFullscreenToggled(bool isFullscreen)
