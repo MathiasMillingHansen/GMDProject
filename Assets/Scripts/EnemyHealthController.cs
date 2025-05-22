@@ -12,7 +12,7 @@ public class EnemyHealthController : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth; // Initialize health
+        currentHealth = maxHealth; 
     }
 
     public void TakeDamage(int damage)
@@ -27,10 +27,9 @@ public class EnemyHealthController : MonoBehaviour
 
     private void Die()
     {
-        Destroy(gameObject); // Destroy the enemy GameObject
+        Destroy(gameObject); 
 
-        ScoreManager.Instance.AddScore(250); // Add score to the ScoreManager
-
+        ScoreManager.Instance.AddScore(250); 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -47,7 +46,6 @@ public class EnemyHealthController : MonoBehaviour
                     playerRb.linearVelocity = new Vector2(playerRb.linearVelocity.x, playerBounceForce); // Bounce the player up
                 }
 
-                // Damage the enemy
                 TakeDamage(1);
             }
             else

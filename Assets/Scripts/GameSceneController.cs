@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f; // Resume the game
-        pauseMenu.SetActive(false); // Hide the pause menu
+        pauseMenu.SetActive(false); 
     }
 
     public void GoToMainMenu()
@@ -72,6 +72,6 @@ public class GameController : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit(); // Quit the application
+        Application.Quit(); 
     }
 }
